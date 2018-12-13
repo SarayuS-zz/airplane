@@ -1,5 +1,6 @@
 # airplane
 This is a trial program that I designed to work on the following problem.
+In short, the problem is to schedule the airplane landing on a single runway.
 
 There are a lot of airplanes requesting to land but unfortunately, the number of available runways for landing is a few. As a result, a policy has been set to manage the landing aircrafts:
 - Landing requests are processed in the order they are received.
