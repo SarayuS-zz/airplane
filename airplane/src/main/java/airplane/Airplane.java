@@ -2,7 +2,7 @@ package airplane;
 /* 
 Busy Airport
 
-Today is a busy day at Vancouver Airport. There are a lot of airplanes requesting to land but unfortunately, the number of available runways for landing is a few. As a result, a policy has been set to manage the landing aircrafts:
+There are a lot of airplanes requesting to land but unfortunately, the number of available runways for landing is a few. As a result, a policy has been set to manage the landing aircrafts:
 - Landing requests are processed in the order they are received.
 - A landing request is accepted if there is a free runway available and the landing process starts immediately.
 - The time needed for the landing process is different for each aircraft.
@@ -31,161 +31,21 @@ Sample Output
 import java.util.ArrayList;
 import java.util.List;
 
-public class Airplane {
-	
-	public static void runwayDesign(int numRunway, List<String> flightNumber, 
-			List<Integer> minutes, List<Integer> time) {
-		
-		int start_time = time.get(0);
-		
-		// Check the number of flights to the number of run ways available
-		if(flightNumber.size() > numRunway) {
-			
-			// Loop for the number of flights
-			for(int i = 0; i < flightNumber.size() - 1; i++) {
-				
-				// check if any two flights request landing at the same time.
-				if(time.get(i) == time.get(i+1)) {
-					
-					// If the landing time is the same for both the flights
-					// No flights are considered as having the same number
-					if(minutes.get(i) == minutes.get(i+1)) {
-												
-						// Land the flight with the minimum flight number
-						if(Integer.parseInt(flightNumber.get(i)) < Integer.parseInt(flightNumber.get(i+1))) {
-							System.out.println(flightNumber.get(i) + " " + time.get(i) + " " + "ACCEPTED");
-							System.out.println(flightNumber.get(i+1) + " " + time.get(i+1) + " " + "POSTPONED");
-							
-							int new_time = time.get(i+1) + 10;
-							time.set(i+1, new_time);
-							
-							// Change the start time 
-							start_time = time.get(i) + minutes.get(i);
-							
-							System.out.println(flightNumber.get(i) + " " + start_time + " " + "LANDED");
-							
-							// Remove the flight details after landing
-							flightNumber.remove(i);
-							time.remove(i);
-							minutes.remove(i);
-							
-							// Always start from the first element in the ArrayList for execution
-							i = -1;
-							
-						} else {
-							System.out.println(flightNumber.get(i+1) + " " + time.get(i+1) + " " + "ACCEPTED");
-							System.out.println(flightNumber.get(i) + " " + time.get(i) + " " + "POSTPONED");
-							
-							int new_time = time.get(i) + 10;
-							time.set(i, new_time);
-							
-							// Change the start time 
-							start_time = time.get(i+1) + minutes.get(i+1);
-							
-							System.out.println(flightNumber.get(i+1) + " " + start_time + " " + "LANDED");
-							
-							// Remove the flight details after landing
-							flightNumber.remove(i+1);
-							time.remove(i+1);
-							minutes.remove(i+1);
-							
-							// Always start from the first element in the ArrayList for execution
-							i = -1;
-						}
-						
-						// Checking the less than condition for minutes
-					} else if(minutes.get(i) < minutes.get(i+1)){ 
-						System.out.println(flightNumber.get(i) + " " + time.get(i) + " " + "ACCEPTED");
-						System.out.println(flightNumber.get(i+1) + " " + time.get(i+1) + " " + "POSTPONED");
-						
-						int new_time = time.get(i+1) + 10;
-						time.set(i+1, new_time);
-						
-						start_time = start_time + minutes.get(i);
-						
-						System.out.println(flightNumber.get(i) + " " + start_time + " " + "LANDED");
-						
-						// Remove the flight details after landing
-						flightNumber.remove(i);
-						time.remove(i);
-						minutes.remove(i);
-						
-						// Always start from the first element in the ArrayList for execution
-						i = -1;
-						
-					} else {
-						System.out.println(flightNumber.get(i+1) + " " + time.get(i+1) + " " + "ACCEPTED");
-						System.out.println(flightNumber.get(i) + " " + time.get(i) + " " + "POSTPONED");
-						
-						int new_time = time.get(i) + 10;
-						time.set(i, new_time);
-						
-						start_time = start_time + minutes.get(i+1);
-						
-						System.out.println(flightNumber.get(i+1) + " " + start_time + " " + "LANDED");
-						
-						// Remove the flight details after landing
-						flightNumber.remove(i+1);
-						time.remove(i+1);
-						minutes.remove(i+1);
-						
-						// Always start from the first element in the ArrayList for execution
-						i = -1;
-					}
-					// Different time for landing requested
-				} else if(time.get(i) < time.get(i+1)) {
-					System.out.println(flightNumber.get(i) + " " + time.get(i) + " " + "ACCEPTED");
-					
-					start_time = start_time + minutes.get(i);
-					
-					System.out.println(flightNumber.get(i) + " " + start_time + " " + "LANDED");
-					
-					// Remove the flight details after landing
-					flightNumber.remove(i);
-					time.remove(i);
-					minutes.remove(i);
-					
-					// Always start from the first element in the ArrayList for execution
-					i = -1;
-					
-				} else if(time.get(i) > time.get(i+1)) {
-					System.out.println(flightNumber.get(i+1) + " " + time.get(i+1) + " " + "ACCEPTED");
-					
-					start_time = start_time + minutes.get(i+1);
-					
-					System.out.println(flightNumber.get(i+1) + " " + start_time + " " + "LANDED");
-					
-					// Remove the flight details after landing
-					flightNumber.remove(i+1);
-					time.remove(i+1);
-					minutes.remove(i+1);
-					
-					// Always start from the first element in the ArrayList for execution
-					i = -1;
-				}
-			}
-			if(flightNumber.size() == 1) {
-				start_time = time.get(0);
-				
-				System.out.println(flightNumber.get(0) + " " + time.get(0) + " " + "ACCEPTED");
-				
-				start_time = start_time + minutes.get(0);
-				
-				System.out.println(flightNumber.get(0) + " " + start_time + " " + "LANDED");
-				
-				// Remove the flight details after landing
-				flightNumber.remove(0);
-				time.remove(0);
-				minutes.remove(0);
-			}
-		}
-	}
+
+public class Airplane { 
 
 	public static void main(String[] args) {
 		
-		// Values to use on the function above. 
+		// Values to use on the function to design the airplane landing. 
 		int numRunway = 1;
+		runwayDesign run_design = new runwayDesign();
 		
+		// Sort the values so that the time is in ascending order
+		// Hence comparison of the first two values of the array will always
+		// provide the required result.
+		mergeSort sorting = new mergeSort();
+		
+		// Input values 
 		List<String> flightNumber = new ArrayList<String>();
 		flightNumber.add("377");
 		flightNumber.add("367");
@@ -201,7 +61,10 @@ public class Airplane {
 		time.add(45);
 		time.add(48);
 		
+		// Sorting the values before the order of landing is decided.
+		sorting.sortingValues(flightNumber,minutes,time);
+		
 		// Calling the static function
-		runwayDesign(numRunway, flightNumber, minutes, time);
+		run_design.design(numRunway, flightNumber, minutes, time);
 	}
 }
